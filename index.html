@@ -53,11 +53,6 @@
                 <option value="no">Nē</option>
                 <option value="yes">Jā</option>
             </select>
-            <label for="paper-type">Papīra izmaksas:</label>
-            <select id="paper-type">
-                <option value="3">Bez aizmugures (3 €)</option>
-                <option value="5">Ar aizmuguri (5 €)</option>
-            </select>
             <button type="button" onclick="calculateCost()">Aprēķināt izmaksas</button>
         </form>
         <div class="result" id="result"></div>
@@ -66,20 +61,17 @@
     <script>
         function calculateCost() {
             const backing = document.getElementById("backing").value;
-            const paperCost = parseFloat(document.getElementById("paper-type").value);
 
             // Fixed costs per DM screen
             const cardboardCostPerScreen = 2.5 / 3; // Kartons izmaksas
             const glueCostPerScreen = 3 / 6;       // Līme izmaksas
             const additionalPaperCostPerScreen = 1 / 3; // Papildus papīrs
 
-            // Base cost
-            let totalCost = cardboardCostPerScreen + paperCost + glueCostPerScreen;
+            // Select paper cost based on backing option
+            const paperCost = backing === "yes" ? 5 : 3;
 
-            // Add backing cost if needed
-            if (backing === "yes") {
-                totalCost += additionalPaperCostPerScreen;
-            }
+            // Total cost calculation
+            let totalCost = cardboardCostPerScreen + paperCost + glueCostPerScreen;
 
             document.getElementById("result").innerText = `Kopējās izmaksas: ${totalCost.toFixed(2)} €`;
         }
